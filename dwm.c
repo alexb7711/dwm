@@ -2203,19 +2203,19 @@ centeredmaster(Monitor *m)
 		h = (m->wh - my) / (MIN(n, m->nmaster) - i) - 2*m->gappx;
 		resize(c, m->wx + mx + m->gappx, m->wy + my + m->gappx,
                     mw - (2*c->bw) - 2*m->gappx, h - (2*c->bw), 0);
-		my += HEIGHT(c);
+		my += HEIGHT(c) + m->gappx;
 	} else {
 		/* stack clients are stacked vertically */
 		if ((i - m->nmaster) % 2 ) {
 			h = (m->wh - ety) / ( (1 + n - i) / 2) - 2*m->gappx;
 			resize(c, m->wx + m->gappx, m->wy + ety + m->gappx,
                             tw - (2*c->bw) - m->gappx, h - (2*c->bw), 0);
-			ety += HEIGHT(c);
+			ety += HEIGHT(c) + m->gappx;
 		} else {
 			h = (m->wh - oty) / ((1 + n - i) / 2) - 2*m->gappx;
 			resize(c, m->wx + mx + mw + m->gappx/2, m->wy + oty + m->gappx,
 			       tw - (2*c->bw) - m->gappx, h - (2*c->bw), 0);
-			oty += HEIGHT(c);
+			oty += HEIGHT(c) + m->gappx;
 		}
 	}
 }
