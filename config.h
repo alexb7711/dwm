@@ -61,29 +61,30 @@ static const Layout layouts[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
-static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbg, "-nf", normfg, "-sb", selbg, "-sf", selfg, NULL };
-static const char *termcmd[]  = { "st", NULL };
+static char dmenumon[2]         = "0"; /* component of dmenucmd, manipulated in spawn() */
+static const char *dmenucmd[]   = {"rofi", "-no-lazy-grab", "-show", "drun", "-theme", "launchers/style_normal_grid.rasi"};
+static const char *termcmd[]    = { "st", NULL };
 
 // Volume Control
-static const char *upvol[]   = { "pactl" , "set-sink-volume" , "0" ,   "+5%" , NULL };
-static const char *downvol[] = { "pactl" , "set-sink-volume" , "0" ,   "-5%" , NULL };
-static const char *mutevol[] = { "pactl" , "set-sink-mute"   , "0" , "toggle" , NULL };
+static const char *upvol[]      = { "pactl" , "set-sink-volume" , "0" ,   "+5%" , NULL };
+static const char *downvol[]    = { "pactl" , "set-sink-volume" , "0" ,   "-5%" , NULL };
+static const char *mutevol[]    = { "pactl" , "set-sink-mute"   , "0" , "toggle" , NULL };
 
 // Backlight Control
-static const char *brupcmd[] = { "sudo", "xbacklight", "-inc", "10", NULL };
-static const char *brdowncmd[] = { "sudo", "xbacklight", "-dec", "10", NULL };
+static const char *brupcmd[]    = { "sudo", "xbacklight", "-inc", "10", NULL };
+static const char *brdowncmd[]  = { "sudo", "xbacklight", "-dec", "10", NULL };
 
-// Media Player Controls 
-static const char *playpause[] = {"playerctl", "play-pause"};
-static const char *previous[] = {"playerctl", "next"};
-static const char *next[] = {"playerctl", "previous"};
+// Media Player Controls
+static const char *playpause[]  = {"playerctl", "play-pause"};
+static const char *previous[]   = {"playerctl", "next"};
+static const char *next[]       = {"playerctl", "previous"};
 
 #include "movestack.c"
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	// { MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
-	{ 0                                  , XF86XK_AudioRaiseVolume  , spawn          , {.v = upvol   } }                                                                ,
+        { MODKEY|ShiftMask                   , XK_l                     , spawn          , SHCMD("dm-tool lock") }                                                              ,
+	{ 0                                  , XF86XK_AudioRaiseVolume  , spawn          , {.v = upvol } }                                                                  ,
 	{ 0                                  , XF86XK_AudioLowerVolume  , spawn          , {.v = downvol } }                                                                ,
 	{ 0                                  , XF86XK_AudioMute         , spawn          , {.v = mutevol } }                                                                ,
         { 0                                  , XF86XK_MonBrightnessUp   , spawn          , {.v = brupcmd} }                                                                 ,
@@ -102,16 +103,16 @@ static Key keys[] = {
 	{ MODKEY                             , XK_l                     , setmfact       , {.f = +0.05} }                                                                   ,
 	{ MODKEY|ShiftMask                   , XK_j                     , movestack      , {.i = +1 } }                                                                     ,
 	{ MODKEY|ShiftMask                   , XK_k                     , movestack      , {.i = -1 } }                                                                     ,
-	{ MODKEY                             , XK_Return                , zoom           , {0} }                                                                            ,
+	{ MODKEY|ShiftMask                   , XK_space                 , movestack      , {.i = 0 } }                                                                     ,
 	{ MODKEY                             , XK_Tab                   , view           , {0} }                                                                            ,
-	// { MODKEY|ShiftMask                , XK_c                     , killclient     , {0} }                                                                            ,
 	{ MODKEY                             , XK_t                     , setlayout      , {.v = &layouts[0]} }                                                             ,
 	{ MODKEY                             , XK_c                     , setlayout      , {.v = &layouts[1]} }                                                             ,
 	// { MODKEY                             , XK_o                     , setlayout      , {.v = &layouts[4]} }                                                             ,
 	// { MODKEY                          , XK_f                     , setlayout      , {.v = &layouts[1]} }                                                             ,
 	// { MODKEY                          , XK_m                     , setlayout      , {.v = &layouts[2]} }                                                             ,
 	// { MODKEY                          , XK_space                 , setlayout      , {0} }                                                                            ,
-        { MODKEY                             , XK_space                 , spawn          , SHCMD("rofi -no-lazy-grab -show drun -theme launchers/style_normal_grid.rasi") } ,
+        // { MODKEY                             , XK_space                 , spawn          , SHCMD("rofi -no-lazy-grab -show drun -theme launchers/style_normal_grid.rasi") } ,
+        { MODKEY                             , XK_space                 , spawn          , {.v = dmenucmd} } ,
 	{ MODKEY|ShiftMask                   , XK_space                 , togglefloating , {0} }                                                                            ,
 	{ MODKEY                             , XK_0                     , view           , {.ui = ~0 } }                                                                    ,
 	{ MODKEY|ShiftMask                   , XK_0                     , tag            , {.ui = ~0 } }                                                                    ,
