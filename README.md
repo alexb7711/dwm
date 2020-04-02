@@ -5,7 +5,7 @@ For the most part, the key bindings are the same. I use GruvBox theme as my them
 
 Be sure to checkout my build of [dwmblocks](https://github.com/alexb7711/dwmblocks) as well if you like this :).
 
-# "Dependencies"
+# Dependencies
 Just some of the programs that I call, and if you want them to work you should have them installed.
 
 * rofi [https://github.com/adi1090x/rofi](https://github.com/adi1090x/rofi)
