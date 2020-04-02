@@ -114,7 +114,6 @@ static Key keys[] = {
 	// { MODKEY                          , XK_f                     , setlayout      , {.v = &layouts[1]} }                                                             ,
 	// { MODKEY                          , XK_m                     , setlayout      , {.v = &layouts[2]} }                                                             ,
 	// { MODKEY                          , XK_space                 , setlayout      , {0} }                                                                            ,
-        // { MODKEY                             , XK_space                 , spawn          , SHCMD("rofi -no-lazy-grab -show drun -theme launchers/style_normal_grid.rasi") } ,
         { MODKEY                             , XK_space                 , spawn          , {.v = dmenucmd} } ,
 	{ MODKEY|ShiftMask                   , XK_space                 , togglefloating , {0} }                                                                            ,
 	{ MODKEY                             , XK_0                     , view           , {.ui = ~0 } }                                                                    ,
