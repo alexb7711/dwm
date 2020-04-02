@@ -106,7 +106,7 @@ static Key keys[] = {
 	{ MODKEY                             , XK_l                     , setmfact       , {.f = +0.05} }                                                                   ,
 	{ MODKEY|ShiftMask                   , XK_j                     , movestack      , {.i = +1 } }                                                                     ,
 	{ MODKEY|ShiftMask                   , XK_k                     , movestack      , {.i = -1 } }                                                                     ,
-	{ MODKEY|ShiftMask                   , XK_space                 , movestack      , {.i = 0 } }                                                                     ,
+	{ MODKEY                             , XK_f                     , togglefullscr  , {0} }                                                                     ,
 	{ MODKEY                             , XK_Tab                   , view           , {0} }                                                                            ,
 	{ MODKEY                             , XK_t                     , setlayout      , {.v = &layouts[0]} }                                                             ,
 	{ MODKEY                             , XK_c                     , setlayout      , {.v = &layouts[1]} }                                                             ,

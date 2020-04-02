@@ -79,11 +79,14 @@ static const char *playpause[]  = {"playerctl", "play-pause"};
 static const char *previous[]   = {"playerctl", "next"};
 static const char *next[]       = {"playerctl", "previous"};
 
+// Lock Screen
+static const char *lockscreen[] = {"dm-tool", "lock"};
+
 #include "movestack.c"
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	// { MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
-        { MODKEY|ShiftMask                   , XK_l                     , spawn          , SHCMD("dm-tool lock") }                                                              ,
+        { MODKEY|ShiftMask                   , XK_l                     , spawn          , {.v = lockscreen} }                                                              ,
 	{ 0                                  , XF86XK_AudioRaiseVolume  , spawn          , {.v = upvol } }                                                                  ,
 	{ 0                                  , XF86XK_AudioLowerVolume  , spawn          , {.v = downvol } }                                                                ,
 	{ 0                                  , XF86XK_AudioMute         , spawn          , {.v = mutevol } }                                                                ,
@@ -103,7 +106,7 @@ static Key keys[] = {
 	{ MODKEY                             , XK_l                     , setmfact       , {.f = +0.05} }                                                                   ,
 	{ MODKEY|ShiftMask                   , XK_j                     , movestack      , {.i = +1 } }                                                                     ,
 	{ MODKEY|ShiftMask                   , XK_k                     , movestack      , {.i = -1 } }                                                                     ,
-	{ MODKEY|ShiftMask                   , XK_space                 , movestack      , {.i = 0 } }                                                                     ,
+	{ MODKEY                             , XK_f                     , togglefullscr  , {0} }                                                                     ,
 	{ MODKEY                             , XK_Tab                   , view           , {0} }                                                                            ,
 	{ MODKEY                             , XK_t                     , setlayout      , {.v = &layouts[0]} }                                                             ,
 	{ MODKEY                             , XK_c                     , setlayout      , {.v = &layouts[1]} }                                                             ,
