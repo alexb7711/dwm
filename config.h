@@ -86,7 +86,8 @@ static const char *lockscreen[] = {"dm-tool", "lock"};
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	// { MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
-        { MODKEY|ShiftMask                   , XK_l                     , spawn          , {.v = lockscreen} }  ,
+        // { MODKEY|ShiftMask                   , XK_l                     , spawn          , {.v = lockscreen} }  ,
+        { MODKEY|ShiftMask                   , XK_l                     , spawn          , SHCMD("dm-tool lock") }  ,
 	{ 0                                  , XF86XK_AudioRaiseVolume  , spawn          , {.v = upvol } }      ,
 	{ 0                                  , XF86XK_AudioLowerVolume  , spawn          , {.v = downvol } }    ,
 	{ 0                                  , XF86XK_AudioMute         , spawn          , {.v = mutevol } }    ,

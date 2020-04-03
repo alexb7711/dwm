@@ -5,22 +5,6 @@ For the most part, the key bindings are the same. I use GruvBox theme as my them
 
 Be sure to checkout my build of [dwmblocks](https://github.com/alexb7711/dwmblocks) as well if you like this :).
 
-# Dependencies
-Just some of the programs that I call, and if you want them to work you should have them installed.
-
-* rofi [https://github.com/adi1090x/rofi](https://github.com/adi1090x/rofi)
-* playerctl
-* pulseaudio (pactl)
-* lightdm
-* Inconsolata Nerd Font [https://github.com/ryanoasis/nerd-fonts](https://github.com/ryanoasis/nerd-fonts)
-
-# Patches
-* FullGaps
-* CenteredMaster (with gaps)
-* MoveStack
-* ActualFullScreen
-* FakeFullScreen
-
 # What is DWM?
 As described by suckless:
 
@@ -72,3 +56,40 @@ As described by suckless:
 >-------------
 >The configuration of dwm is done by creating a custom config.h
 >and (re)compiling the source code.
+
+# Dependencies
+Just some of the programs that I call, and if you want them to work you should have them installed.
+
+* rofi [https://github.com/adi1090x/rofi](https://github.com/adi1090x/rofi)
+* playerctl
+* pulseaudio (pactl)
+* lightdm
+* Inconsolata Nerd Font [https://github.com/ryanoasis/nerd-fonts](https://github.com/ryanoasis/nerd-fonts)
+
+# Patches
+* FullGaps
+* CenteredMaster (with gaps)
+* MoveStack
+* ActualFullScreen
+* FakeFullScreen
+
+# Running dwm
+To get dwm working, the only thing that you need is to have `dwm` in your `~/.xinitrc`. If you want it to reload dwm when you make a new build you can put the following instead:
+
+``` bash
+# relaunch DWM if the binary changes, otherwise bail
+csum=$(sha1sum $(which dwm))
+new_csum=""
+while true
+do
+    if [ "$csum" != "$new_csum" ]
+    then
+        csum=$new_csum
+        dwm
+    else
+        exit 0
+    fi
+    new_csum=$(sha1sum $(which dwm))
+    sleep 0.5
+done
+```
