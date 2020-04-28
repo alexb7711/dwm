@@ -93,7 +93,7 @@ struct Client {
 	int basew, baseh, incw, inch, maxw, maxh, minw, minh;
 	int bw, oldbw;
 	unsigned int tags;
-	int isfixed, isfloating, isurgent, neverfocus, oldstate, isfullscreen;
+	int isfixed, isfloating, isurgent, neverfocus, oldstate, isfakefullscreen, isrealfullscreen;
 	Client *next;
 	Client *snext;
 	Monitor *mon;
@@ -182,7 +182,7 @@ static void killclient(const Arg *arg);
 static void manage(Window w, XWindowAttributes *wa);
 static void mappingnotify(XEvent *e);
 static void maprequest(XEvent *e);
-static void monocle(Monitor *m);
+//static void monocle(Monitor *m);
 static void motionnotify(XEvent *e);
 static void movemouse(const Arg *arg);
 static Client *nexttiled(Client *c);
@@ -201,8 +201,8 @@ static int sendevent(Client *c, Atom proto);
 static void sendmon(Client *c, Monitor *m);
 static void setclientstate(Client *c, long state);
 static void setfocus(Client *c);
-static void setfullscreen(Client *c, int fullscreen);
-static void setrealfullscreen(Client *c, int fullscreen);
+static void setFakeFullscreen(Client *c, int fullscreen);
+static void setRealFullscreen(Client *c, int fullscreen);
 static void setgaps(const Arg *arg);
 static void setlayout(const Arg *arg);
 static void setmfact(const Arg *arg);
@@ -240,7 +240,7 @@ static int xerrordummy(Display *dpy, XErrorEvent *ee);
 static int xerrorstart(Display *dpy, XErrorEvent *ee);
 static void zoom(const Arg *arg);
 static void centeredmaster(Monitor *m);
-static void centeredfloatingmaster(Monitor *m);
+//static void centeredfloatingmaster(Monitor *m);
 
 /* variables */
 static const char broken[] = "broken";
@@ -528,7 +528,7 @@ clientmessage(XEvent *e)
 	if (cme->message_type == netatom[NetWMState]) {
 		if (cme->data.l[1] == netatom[NetWMFullscreen]
 		|| cme->data.l[2] == netatom[NetWMFullscreen])
-			setfullscreen(c, (cme->data.l[0] == 1 /* _NET_WM_STATE_ADD    */
+			setFakeFullscreen(c, (cme->data.l[0] == 1 /* _NET_WM_STATE_ADD    */
 				|| cme->data.l[0] == 2 /* _NET_WM_STATE_TOGGLE */));
 	} else if (cme->message_type == netatom[NetActiveWindow]) {
 		if (c != selmon->sel && !c->isurgent)
@@ -1389,7 +1389,7 @@ roundcorners(Client *c)
     int height = borderpx * 2 + wa.height;
     /* int width = win_attr.border_width * 2 + win_attr.width; */
     /* int height = win_attr.border_width * 2 + win_attr.height; */
-    int rad = cornerrad * (1-c->isfullscreen); //config_theme_cornerradius;
+    int rad = cornerrad * (1-c->isfakefullscreen); //config_theme_cornerradius;
     int dia = 2 * rad;
 
     // do not try to round if the window would be smaller than the corners
@@ -1524,37 +1524,40 @@ setfocus(Client *c)
 
 // Fake Full Screen
 void
-setfullscreen(Client *c, int fullscreen)
+setFakeFullscreen(Client *c, int fullscreen)
 {
-	if (fullscreen && !c->isfullscreen) {
+	if (fullscreen && !c->isfakefullscreen) {
 		XChangeProperty(dpy, c->win, netatom[NetWMState], XA_ATOM, 32,
 			PropModeReplace, (unsigned char*)&netatom[NetWMFullscreen], 1);
-		c->isfullscreen = 1;
-	} else if (!fullscreen && c->isfullscreen){
+		c->isfakefullscreen = 1;
+	} else if (!fullscreen && c->isfakefullscreen){
 		XChangeProperty(dpy, c->win, netatom[NetWMState], XA_ATOM, 32,
 			PropModeReplace, (unsigned char*)0, 0);
-		c->isfullscreen = 0;
+		c->isfakefullscreen = 0;
 	}
 }
 
 // Real Full Screen
 void
-setrealfullscreen(Client *c, int fullscreen)
+setRealFullscreen(Client *c, int fullscreen)
 {
-	if (fullscreen && !c->isfullscreen) {
+	if (fullscreen && !c->isrealfullscreen) 
+        {
 		XChangeProperty(dpy, c->win, netatom[NetWMState], XA_ATOM, 32,
 			PropModeReplace, (unsigned char*)&netatom[NetWMFullscreen], 1);
-		c->isfullscreen = 1;
+		c->isrealfullscreen = 1;
 		c->oldstate = c->isfloating;
 		c->oldbw = c->bw;
 		c->bw = 0;
 		c->isfloating = 1;
 		resizeclient(c, c->mon->mx, c->mon->my, c->mon->mw, c->mon->mh);
 		XRaiseWindow(dpy, c->win);
-	} else if (!fullscreen && c->isfullscreen){
+	} 
+        else if (!fullscreen && c->isrealfullscreen)
+        {
 		XChangeProperty(dpy, c->win, netatom[NetWMState], XA_ATOM, 32,
 			PropModeReplace, (unsigned char*)0, 0);
-		c->isfullscreen = 0;
+		c->isrealfullscreen = 0;
 		c->isfloating = c->oldstate;
 		c->bw = c->oldbw;
 		c->x = c->oldx;
@@ -1800,7 +1803,7 @@ void
 togglefullscr(const Arg *arg)
 {
   if(selmon->sel)
-    setrealfullscreen(selmon->sel, !selmon->sel->isfullscreen);
+    setRealFullscreen(selmon->sel, !selmon->sel->isrealfullscreen);
 }
 
 
@@ -2093,7 +2096,7 @@ updatewindowtype(Client *c)
 	Atom wtype = getatomprop(c, netatom[NetWMWindowType]);
 
 	if (state == netatom[NetWMFullscreen])
-		setfullscreen(c, 1);
+		setFakeFullscreen(c, 1);
 	if (wtype == netatom[NetWMWindowTypeDialog])
 		c->isfloating = 1;
 }
