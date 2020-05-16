@@ -40,7 +40,6 @@
 #include <X11/extensions/Xinerama.h>
 #endif /* XINERAMA */
 #include <X11/Xft/Xft.h>
-#include <X11/extensions/shape.h>
 
 #include "drw.h"
 #include "util.h"
@@ -194,7 +193,6 @@ static void resize(Client *c, int x, int y, int w, int h, int interact);
 static void resizeclient(Client *c, int x, int y, int w, int h);
 static void resizemouse(const Arg *arg);
 static void restack(Monitor *m);
-static void roundcorners(Client *c);
 static void run(void);
 static void scan(void);
 static int sendevent(Client *c, Atom proto);
@@ -1193,6 +1191,7 @@ movemouse(const Arg *arg)
 		selmon = m;
 		focus(NULL);
 	}
+
 }
 
 Client *
@@ -1287,7 +1286,6 @@ resizeclient(Client *c, int x, int y, int w, int h)
 	wc.border_width = c->bw;
 	XConfigureWindow(dpy, c->win, CWX|CWY|CWWidth|CWHeight|CWBorderWidth, &wc);
 	configure(c);
-        roundcorners(c);
 	XSync(dpy, False);
 }
 
@@ -1353,9 +1351,6 @@ restack(Monitor *m)
 	XEvent ev;
 	XWindowChanges wc;
 
-         for (c = m->stack; c; c = c->snext)
-                roundcorners(c);
-
 	drawbar(m);
 	if (!m->sel)
 		return;
@@ -1372,54 +1367,6 @@ restack(Monitor *m)
 	}
 	XSync(dpy, False);
 	while (XCheckMaskEvent(dpy, EnterWindowMask, &ev));
-}
-
-void
-roundcorners(Client *c)
-{
-    Window w = c->win;
-    XWindowAttributes wa;
-    XGetWindowAttributes(dpy, w, &wa);
-
-    // If this returns null, the window is invalid.
-    if(!XGetWindowAttributes(dpy, w, &wa))
-        return;
-
-    int width = borderpx * 2 + wa.width;
-    int height = borderpx * 2 + wa.height;
-    /* int width = win_attr.border_width * 2 + win_attr.width; */
-    /* int height = win_attr.border_width * 2 + win_attr.height; */
-    int rad = cornerrad * (1-c->isfakefullscreen); //config_theme_cornerradius;
-    int dia = 2 * rad;
-
-    // do not try to round if the window would be smaller than the corners
-    if(width < dia || height < dia)
-        return;
-
-    Pixmap mask = XCreatePixmap(dpy, w, width, height, 1);
-    // if this returns null, the mask is not drawable
-    if(!mask)
-        return;
-
-    XGCValues xgcv;
-    GC shape_gc = XCreateGC(dpy, mask, 0, &xgcv);
-    if(!shape_gc) {
-        XFreePixmap(dpy, mask);
-        return;
-    }
-
-    XSetForeground(dpy, shape_gc, 0);
-    XFillRectangle(dpy, mask, shape_gc, 0, 0, width, height);
-    XSetForeground(dpy, shape_gc, 1);
-    XFillArc(dpy, mask, shape_gc, 0, 0, dia, dia, 0, 23040);
-    XFillArc(dpy, mask, shape_gc, width-dia-1, 0, dia, dia, 0, 23040);
-    XFillArc(dpy, mask, shape_gc, 0, height-dia-1, dia, dia, 0, 23040);
-    XFillArc(dpy, mask, shape_gc, width-dia-1, height-dia-1, dia, dia, 0, 23040);
-    XFillRectangle(dpy, mask, shape_gc, rad, 0, width-dia, height);
-    XFillRectangle(dpy, mask, shape_gc, 0, rad, width, height-dia);
-    XShapeCombineMask(dpy, w, ShapeBounding, 0-wa.border_width, 0-wa.border_width, mask, ShapeSet);
-    XFreePixmap(dpy, mask);
-    XFreeGC(dpy, shape_gc);
 }
 
 void
@@ -2282,7 +2229,7 @@ centeredmaster(Monitor *m)
 		if ((i - m->nmaster) % 2 ) {
 			h = (m->wh - ety) / ( (1 + n - i) / 2) - 2*m->gappx;
 			resize(c, m->wx + m->gappx, m->wy + ety + m->gappx,
-                            tw - (2*c->bw) - m->gappx, h - (2*c->bw), 0);
+                           tw - (2*c->bw) - m->gappx, h - (2*c->bw), 0);
 			ety += HEIGHT(c) + m->gappx;
 		} else {
 			h = (m->wh - oty) / ((1 + n - i) / 2) - 2*m->gappx;
