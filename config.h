@@ -4,7 +4,6 @@
 
 /* appearance */
 static const unsigned int borderpx  = 2;        /* border pixel of windows */
-static const unsigned int cornerrad = 4;        /* border pixel of windows */
 static const unsigned int gappx     = 5;        /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
@@ -32,8 +31,8 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
-//	{ "Gimp"           , NULL , NULL , 0      , 1 , -1 } ,
-	{ "Android Studio" , NULL , NULL , 1      , 1 , -1 } ,
+	{ "Gimp"           , NULL , NULL , 0      , 1 , -1 } ,
+	{ "android-studio" , NULL , NULL , 1      , 1 , -1 } ,
 	{ "Firefox"        , NULL , NULL , 1 << 8 , 0 , -1 } ,
 };
 
@@ -82,9 +81,9 @@ static Key keys[] = {
 	// { MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
         // { MODKEY|ShiftMask                   , XK_l                     , spawn          , {.v = lockscreen} }  ,
         { MODKEY|ShiftMask                   , XK_l                     , spawn          , SHCMD("dm-tool lock") }                         ,
-        { 0                                  , XF86XK_AudioRaiseVolume  , spawn          , SHCMD("~/Code/Scripts/audioSwapper up") }   ,
-        { 0                                  , XF86XK_AudioLowerVolume  , spawn          , SHCMD("~/Code/Scripts/audioSwapper down") } ,
-        { 0                                  , XF86XK_AudioMute         , spawn          , SHCMD("~/Code/Scripts/audioSwapper mute") } ,
+        { 0                                  , XF86XK_AudioRaiseVolume  , spawn          , SHCMD("audioSwapper up") }   ,
+        { 0                                  , XF86XK_AudioLowerVolume  , spawn          , SHCMD("audioSwapper down") } ,
+        { 0                                  , XF86XK_AudioMute         , spawn          , SHCMD("audioSwapper mute") } ,
         { 0                                  , XF86XK_MonBrightnessUp   , spawn          , {.v = brupcmd} }                                ,
         { 0                                  , XF86XK_MonBrightnessDown , spawn          , {.v = brdowncmd} }                              ,
         { 0                                  , XF86XK_AudioPlay         , spawn          , {.v = playpause} }                              ,
