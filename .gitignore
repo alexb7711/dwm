@@ -1,5 +1,8 @@
 # Ignore object files
 *.o
 
+# Ignore .vs file
+*.vs
+
 # Ignore tags
 tags/
