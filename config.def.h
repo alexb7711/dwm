@@ -64,7 +64,7 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2]         = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[]   = {"rofi", "-no-lazy-grab", "-show", "drun"};
-static const char *termcmd[]    = { "st", NULL };
+static const char *termcmd[]    = { "tabbed", "-r", "2", "-c", "st", "-w", "''" };
 
 // Backlight Control
 static const char *brupcmd[]    = { "sudo", "xbacklight", "-inc", "10", NULL };
