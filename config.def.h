@@ -32,8 +32,7 @@ static const Rule rules[] = {
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Gimp"           , NULL , NULL , 0      , 1 , -1 } ,
-	{ "android-studio" , NULL , NULL , 1      , 1 , -1 } ,
-	{ "Firefox"        , NULL , NULL , 1 << 8 , 0 , -1 } ,
+	{ "Brave"        , NULL , NULL , 1 << 8 , 0 , -1 } ,
 };
 
 /* layout(s) */
@@ -64,6 +63,7 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2]         = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[]   = {"rofi", "-no-lazy-grab", "-show", "drun"};
+static const char *dmenurun[]   = {"rofi", "-no-lazy-grab", "-show", "run"};
 static const char *termcmd[]    = { "tabbed", "-r", "2", "-c", "st", "-w", "''" };
 
 // Backlight Control
@@ -102,8 +102,11 @@ static Key keys[] = {
         { MODKEY                             , XK_f                     , togglefullscr  , {0} }                                           ,
         { MODKEY|ShiftMask                   , XK_f                     , setlayout      , {.v = &layouts[1]} }                            ,
 	{ MODKEY                             , XK_t                     , setlayout      , {.v = &layouts[0]} }                            ,
+	{ MODKEY|ShiftMask                   , XK_m                     , spawn          , SHCMD("monitorSwapper")}                        ,
 	// { MODKEY                          , XK_o                     , setlayout      , {.v = &layouts[4]} }                            ,
 	// { MODKEY                          , XK_m                     , setlayout      , {.v = &layouts[2]} }                            ,
+        { MODKEY                             , XK_r                     , spawn          , {.v = dmenurun} }                               ,
+	{ MODKEY|ShiftMask                   , XK_s                     , spawn          , SHCMD("screenshot")}                            ,
 	{ MODKEY                             , XK_Tab                   , view           , {0} }                                           ,
         { MODKEY                             , XK_space                 , spawn          , {.v = dmenucmd} }                               ,
 	{ MODKEY|ShiftMask                   , XK_space                 , togglefloating , {0} }                                           ,
