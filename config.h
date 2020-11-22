@@ -6,6 +6,7 @@
 static const unsigned int borderpx  = 2;        /* border pixel of windows */
 static const unsigned int gappx     = 5;        /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
+static const int swallowfloating    = 0;        /* 1 means swallow floating windows by default */
 static const int showbar            = 0;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "Inconsolata Nerd Font Mono:size      = 11" };
@@ -30,9 +31,14 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class  , instance , title , tags mask , isfloating , monitor */
-	{ "Gimp"  , NULL     , NULL  , 0         , 1          , -1 }       ,
-//	{ "Brave" , NULL     , NULL  , 1 << 0    , 0          , -1 }       ,
+	/* class                        , instance , title          , tags mask , isfloating , isterminal , noswallow , monitor */
+ 	{ "tabbed"                      , NULL     , "st"           , 0         , 0          , 1          , 0         , -1 }       ,
+ 	{ "St"                          , NULL     , NULL           , 0         , 0          , 1          , 0         , -1 }       ,
+	{ "Gimp"                        , NULL     , NULL           , 0         , 1          , 0          , 0         , -1 }       ,
+	{ "Brave"                       , NULL     , NULL           , 0         , 0          , 0          , 1         , -1 }       ,
+	{ "MATLAB R2017b - student use" , NULL     , NULL           , 0         , 1          , 0          , 1         , -1 }       ,
+	{ "rviz"                        , NULL     , NULL           , 0         , 0          , 0          , 1         , -1 }       ,
+ 	{ NULL                          , NULL     , "Event Tester" , 0         , 0          , 0          , 1         , -1 }       , /* xev */
 };
 
 /* layout(s) */
@@ -42,10 +48,10 @@ static const int resizehints = 1;    /* 1 means respect size hints in tiled resi
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[]=",      tile },    /* first entry is default */
-        { "><>",      NULL },    /* [> no layout function means floating behavior <] */
+	{ "[=]",      tile },    /* first entry is default */
+        { "[~]",      NULL },    /* [> no layout function means floating behavior <] */
 	// { "[M]",      monocle },
-	{ "|M|",      centeredmaster },
+	{ "[M]",      centeredmaster },
 	// { ">M>",      centeredfloatingmaster },
 };
 
