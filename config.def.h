@@ -16,11 +16,12 @@ static const char normborder[]      = "#282828";
 static const char normfg[]          = "#eeeeee";
 static const char selfg[]           = "#eeeeee";
 static const char selbg[]           = "#458588";
-static const char selborder[]       = "#a89984";
+//static const char selborder[]       = "#a89984";
+static const char selborder[]       = "#d79921";
 static const char *colors[][3]      = {
-	/*               fg         bg         border   */
-	[SchemeNorm] = { normfg, normbg, normborder },
-	[SchemeSel]  = { selfg, selbg,  selborder  },
+	/*               fg     , bg     , border       , */
+	[SchemeNorm] = { normfg , normbg , normborder } ,
+	[SchemeSel]  = { selfg  , selbg  , selborder  } ,
 };
 
 /* tagging */
