@@ -3,25 +3,33 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx  = 2;        /* border pixel of windows */
-static const unsigned int gappx     = 5;        /* gaps between windows */
-static const unsigned int snap      = 32;       /* snap pixel */
-static const int swallowfloating    = 0;        /* 1 means swallow floating windows by default */
-static const int showbar            = 0;        /* 0 means no bar */
-static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "Inconsolata Nerd Font Mono:size      = 11" };
-static const char dmenufont[]       = "monospace:size                         = 10";
-static const char normbg[]          = "#282828";
-static const char normborder[]      = "#282828";
-static const char normfg[]          = "#eeeeee";
-static const char selfg[]           = "#eeeeee";
-static const char selbg[]           = "#458588";
+static const unsigned int borderpx    = 2;        /* border pixel of windows */
+static const unsigned int gappx       = 5;        /* gaps between windows */
+static const unsigned int snap        = 32;       /* snap pixel */
+static const int swallowfloating      = 0;        /* 1 means swallow floating windows by default */
+static const int showbar              = 0;        /* 0 means no bar */
+static const int topbar               = 1;        /* 0 means bottom bar */
+static const char *fonts[]            = { "Inconsolata Nerd Font Mono:size                          = 11" };
+static const char dmenufont[]         = "monospace:size                                             = 10";
+static const char normbg[]            = "#282828";
+static const char normborder[]        = "#282828";
+static const char normfg[]            = "#eeeeee";
+static const char selfg[]             = "#eeeeee";
+static const char selbg[]             = "#458588";
 //static const char selborder[]       = "#a89984";
-static const char selborder[]       = "#d79921";
-static const char *colors[][3]      = {
+static const char selborder[]         = "#d79921";
+static const char *colors[][3]        = {
 	/*               fg     , bg     , border       , */
 	[SchemeNorm] = { normfg , normbg , normborder } ,
 	[SchemeSel]  = { selfg  , selbg  , selborder  } ,
+};
+
+static const unsigned int baralpha    = 0xd0;
+static const unsigned int borderalpha = OPAQUE;
+static const unsigned int alphas[][3] = {
+	/*               fg      bg        border     */
+	[SchemeNorm] = { OPAQUE, baralpha, borderalpha },
+	[SchemeSel]  = { OPAQUE, baralpha, borderalpha },
 };
 
 /* tagging */
