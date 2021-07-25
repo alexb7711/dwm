@@ -83,6 +83,7 @@ static const Layout layouts[] = {
 static char dmenumon[2]       = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbg, "-nf", normfg, "-sb", selbg, "-sf", selfg, NULL };
 static const char *termcmd[]  = { "tabbed", "-r", "2", "-c", "st", "-w", "''" };
+static const char *surfcmd[]  = { "tabbed", "-c", "surf", "-e", NULL};
 
 /*First arg only serves to match against key in rules*/
 static const char *scratchpadcmd[] = {"s" , "st" , "-t" , "scratchpad" , NULL};
@@ -113,9 +114,10 @@ static Key keys[] = {
        { 0                               , XF86XK_AudioPrev         , spawn          , {.v = previous} }                  ,
        { MODKEY                          , XK_Return                , spawn          , {.v = termcmd } }                  ,
        { MODKEY                          , XK_b                     , togglebar      , {0} }                              ,
-       { MODKEY|ShiftMask                , XK_b                     , spawn          , SHCMD("brave") }                   ,
+       // { MODKEY|ShiftMask                , XK_b                     , spawn          , SHCMD("brave") }                   ,
+       { MODKEY|ShiftMask                , XK_b                     , spawn          , {.v = surfcmd} }                   ,
        { MODKEY                          , XK_c                     , setlayout      , {.v = &layouts[2]} }               ,
-       { MODKEY                          , XK_e                     , spawn          , SHCMD("st -e \"nvim\"") } ,
+       { MODKEY                          , XK_e                     , spawn          , SHCMD("tabbed -r 2 st -w '' -e \"nvim\"") } ,
        { MODKEY                          , XK_j                     , focusstack     , {.i = +1 } }                       ,
        { MODKEY                          , XK_k                     , focusstack     , {.i = -1 } }                       ,
        { MODKEY                          , XK_i                     , incnmaster     , {.i = +1 } }                       ,
@@ -132,6 +134,7 @@ static Key keys[] = {
 	// { MODKEY                          , XK_m                     , setlayout      , {.v = &layouts[2]} }               ,
        { MODKEY                          , XK_s                     , spawn          , SHCMD("screenshot")}               ,
        { MODKEY|ShiftMask                , XK_s                     , spawn          , SHCMD("systemctl suspend")}        ,
+       { MODKEY|ShiftMask                , XK_w                     , spawn          , SHCMD("setWallpaper")}             ,
        { MODKEY                          , XK_Tab                   , view           , {0} }                              ,
        { MODKEY                          , XK_space                 , spawn          , {.v = dmenucmd} }                  ,
        { MODKEY|ShiftMask                , XK_space                 , togglefloating , {0} }                              ,

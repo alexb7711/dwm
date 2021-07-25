@@ -10,7 +10,7 @@ static const int swallowfloating      = 0;        /* 1 means swallow floating wi
 static const int showbar              = 0;        /* 0 means no bar */
 static const int topbar               = 1;        /* 0 means bottom bar */
 static const char *fonts[]            = { "Inconsolata Nerd Font Mono:size                          = 11" };
-static const char dmenufont[]         = "monospace:size                                             = 10";
+static const char dmenufont[]         = "Inconsolata Nerd Font Mono:size                            = 11"  ;
 static const char normbg[]            = "#282828";
 static const char normborder[]        = "#282828";
 static const char normfg[]            = "#eeeeee";
@@ -40,14 +40,18 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class                        , instance , title          , tags mask , isfloating , isterminal , noswallow , monitor */
- 	{ "tabbed"                      , NULL     , "st"           , 0         , 0          , 1          , 0         , -1 }       ,
- 	{ "St"                          , NULL     , NULL           , 0         , 0          , 1          , 0         , -1 }       ,
-	{ "Gimp"                        , NULL     , NULL           , 0         , 1          , 0          , 0         , -1 }       ,
-	{ "Brave"                       , NULL     , NULL           , 0         , 0          , 0          , 1         , -1 }       ,
-	{ "MATLAB R2017b - student use" , NULL     , NULL           , 0         , 1          , 0          , 1         , -1 }       ,
-	{ "rviz"                        , NULL     , NULL           , 0         , 0          , 0          , 1         , -1 }       ,
- 	{ NULL                          , NULL     , "Event Tester" , 0         , 0          , 0          , 1         , -1 }       , /* xev */
+	/* class                        , instance , title          , tags mask , isfloating , isterminal , noswallow , monitor , scratch key */
+	{ "Brave"                       , NULL     , NULL           , 0         , 0          , 0          , 1         , -1      , 0   } ,
+	{ "Gimp"                        , NULL     , NULL           , 0         , 1          , 0          , 0         , -1      , 0   } ,
+	{ "MATLAB R2017b - student use" , NULL     , NULL           , 0         , 1          , 0          , 1         , -1      , 0   } ,
+	{ "rviz"                        , NULL     , NULL           , 0         , 0          , 0          , 1         , -1      , 0   } ,
+	{ NULL                          , NULL     , "scratchpad"   , 0         , 1          , 0          , 1         , -1      , 's' } ,
+	{ NULL                          , NULL     , "ncspot"       , 0         , 1          , 0          , 1         , -1      , 'n' } ,
+	{ NULL                          , NULL     , "pulsemixer"   , 0         , 1          , 0          , 1         , -1      , 'p' } ,
+ 	{ "St"                          , NULL     , NULL           , 0         , 0          , 1          , 0         , -1      , 0   } ,
+ 	{ "tabbed"                      , NULL     , "st"           , 0         , 0          , 1          , 0         , -1      , 0   } ,
+ 	{ "obs"                         , NULL     , NULL           , 1 << 8    , 0          , 1          , 0         , -1      , 0   } ,
+ 	{ NULL                          , NULL     , "Event Tester" , 0         , 0          , 0          , 1         , -1      , 0   } , /* xev */
 };
 
 /* layout(s) */
@@ -76,10 +80,15 @@ static const Layout layouts[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
-static char dmenumon[2]         = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[]   = {"rofi", "-no-lazy-grab", "-show", "drun"};
-static const char *dmenurun[]   = {"rofi", "-no-lazy-grab", "-show", "run"};
-static const char *termcmd[]    = { "tabbed", "-r", "2", "-c", "st", "-w", "''" };
+static char dmenumon[2]       = "0"; /* component of dmenucmd, manipulated in spawn() */
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbg, "-nf", normfg, "-sb", selbg, "-sf", selfg, NULL };
+static const char *termcmd[]  = { "tabbed", "-r", "2", "-c", "st", "-w", "''" };
+static const char *surfcmd[]  = { "tabbed", "-c", "surf", "-e", NULL};
+
+/*First arg only serves to match against key in rules*/
+static const char *scratchpadcmd[] = {"s" , "st" , "-t" , "scratchpad" , NULL};
+static const char *ncspotify[]     = {"n" , "st" , "-t" , "ncspot"     , "-e" , "ncspot"     , NULL};
+static const char *pulsemixer[]    = {"p" , "st" , "-t" , "pulsemixer" , "-e" , "pulsemixer" , NULL};
 
 // Backlight Control
 static const char *brupcmd[]    = { "sudo", "xbacklight", "-inc", "10", NULL };
@@ -92,48 +101,55 @@ static const char *next[]       = {"playerctl", "next"};
 
 #include "movestack.c"
 static Key keys[] = {
-	/* modifier                     key        function        argument */
-        { MODKEY|ShiftMask                   , XK_l                     , spawn          , SHCMD("dm-tool lock") }                         ,
-        { 0                                  , XF86XK_AudioRaiseVolume  , spawn          , SHCMD("audioSwapper up") }   ,
-        { 0                                  , XF86XK_AudioLowerVolume  , spawn          , SHCMD("audioSwapper down") } ,
-        { 0                                  , XF86XK_AudioMute         , spawn          , SHCMD("audioSwapper mute") } ,
-        { 0                                  , XF86XK_MonBrightnessUp   , spawn          , {.v = brupcmd} }                                ,
-        { 0                                  , XF86XK_MonBrightnessDown , spawn          , {.v = brdowncmd} }                              ,
-        { 0                                  , XF86XK_AudioPlay         , spawn          , {.v = playpause} }                              ,
-        { 0                                  , XF86XK_AudioPause        , spawn          , {.v = playpause} }                              ,
-        { 0                                  , XF86XK_AudioNext         , spawn          , {.v = next} }                                   ,
-        { 0                                  , XF86XK_AudioPrev         , spawn          , {.v = previous} }                               ,
-	{ MODKEY                             , XK_Return                , spawn          , {.v = termcmd } }                               ,
-	{ MODKEY                             , XK_b                     , togglebar      , {0} }                                           ,
-	{ MODKEY                             , XK_c                     , setlayout      , {.v = &layouts[2]} }                            ,
-	{ MODKEY                             , XK_j                     , focusstack     , {.i = +1 } }                                    ,
-	{ MODKEY                             , XK_k                     , focusstack     , {.i = -1 } }                                    ,
-	{ MODKEY                             , XK_i                     , incnmaster     , {.i = +1 } }                                    ,
-	{ MODKEY                             , XK_d                     , incnmaster     , {.i = -1 } }                                    ,
-	{ MODKEY                             , XK_h                     , setmfact       , {.f = -0.05} }                                  ,
-	{ MODKEY                             , XK_l                     , setmfact       , {.f = +0.05} }                                  ,
-	{ MODKEY|ShiftMask                   , XK_j                     , movestack      , {.i = +1 } }                                    ,
-	{ MODKEY|ShiftMask                   , XK_k                     , movestack      , {.i = -1 } }                                    ,
-        { MODKEY                             , XK_f                     , togglefullscr  , {0} }                                           ,
-        { MODKEY|ShiftMask                   , XK_f                     , setlayout      , {.v = &layouts[1]} }                            ,
-	{ MODKEY                             , XK_t                     , setlayout      , {.v = &layouts[0]} }                            ,
-	{ MODKEY|ShiftMask                   , XK_m                     , spawn          , SHCMD("monitorSwapper")}                        ,
-	// { MODKEY                          , XK_o                     , setlayout      , {.v = &layouts[4]} }                            ,
-	// { MODKEY                          , XK_m                     , setlayout      , {.v = &layouts[2]} }                            ,
-        { MODKEY                             , XK_r                     , spawn          , {.v = dmenurun} }                               ,
-	{ MODKEY|ShiftMask                   , XK_s                     , spawn          , SHCMD("screenshot")}                            ,
-	{ MODKEY                             , XK_Tab                   , view           , {0} }                                           ,
-        { MODKEY                             , XK_space                 , spawn          , {.v = dmenucmd} }                               ,
-	{ MODKEY|ShiftMask                   , XK_space                 , togglefloating , {0} }                                           ,
-	{ MODKEY                             , XK_0                     , view           , {.ui = ~0 } }                                   ,
-	{ MODKEY|ShiftMask                   , XK_0                     , tag            , {.ui = ~0 } }                                   ,
-	{ MODKEY                             , XK_comma                 , focusmon       , {.i = -1 } }                                    ,
-	{ MODKEY                             , XK_period                , focusmon       , {.i = +1 } }                                    ,
-	{ MODKEY                             , XK_minus                 , setgaps        , {.i = -1 } }                                    ,
-	{ MODKEY                             , XK_equal                 , setgaps        , {.i = +1 } }                                    ,
-	{ MODKEY|ShiftMask                   , XK_equal                 , setgaps        , {.i = 0  } }                                    ,
-	{ MODKEY|ShiftMask                   , XK_comma                 , tagmon         , {.i = -1 } }                                    ,
-	{ MODKEY|ShiftMask                   , XK_period                , tagmon         , {.i = +1 } }                                    ,
+	/* modifier                          ,     key                  ,     function   ,   argument */
+       { MODKEY|ShiftMask                , XK_l                     , spawn          , SHCMD("dm-tool lock") }            ,
+       { 0                               , XF86XK_AudioRaiseVolume  , spawn          , SHCMD("audioSwapper up") }         ,
+       { 0                               , XF86XK_AudioLowerVolume  , spawn          , SHCMD("audioSwapper down") }       ,
+       { 0                               , XF86XK_AudioMute         , spawn          , SHCMD("audioSwapper mute") }       ,
+       { 0                               , XF86XK_MonBrightnessUp   , spawn          , {.v = brupcmd} }                   ,
+       { 0                               , XF86XK_MonBrightnessDown , spawn          , {.v = brdowncmd} }                 ,
+       { 0                               , XF86XK_AudioPlay         , spawn          , {.v = playpause} }                 ,
+       { 0                               , XF86XK_AudioPause        , spawn          , {.v = playpause} }                 ,
+       { 0                               , XF86XK_AudioNext         , spawn          , {.v = next} }                      ,
+       { 0                               , XF86XK_AudioPrev         , spawn          , {.v = previous} }                  ,
+       { MODKEY                          , XK_Return                , spawn          , {.v = termcmd } }                  ,
+       { MODKEY                          , XK_b                     , togglebar      , {0} }                              ,
+       // { MODKEY|ShiftMask                , XK_b                     , spawn          , SHCMD("brave") }                   ,
+       { MODKEY|ShiftMask                , XK_b                     , spawn          , {.v = surfcmd} }                   ,
+       { MODKEY                          , XK_c                     , setlayout      , {.v = &layouts[2]} }               ,
+       { MODKEY                          , XK_e                     , spawn          , SHCMD("tabbed -r 2 st -w '' -e \"nvim\"") } ,
+       { MODKEY                          , XK_j                     , focusstack     , {.i = +1 } }                       ,
+       { MODKEY                          , XK_k                     , focusstack     , {.i = -1 } }                       ,
+       { MODKEY                          , XK_i                     , incnmaster     , {.i = +1 } }                       ,
+       { MODKEY                          , XK_d                     , incnmaster     , {.i = -1 } }                       ,
+       { MODKEY                          , XK_h                     , setmfact       , {.f = -0.05} }                     ,
+       { MODKEY                          , XK_l                     , setmfact       , {.f = +0.05} }                     ,
+       { MODKEY|ShiftMask                , XK_j                     , movestack      , {.i = +1 } }                       ,
+       { MODKEY|ShiftMask                , XK_k                     , movestack      , {.i = -1 } }                       ,
+       { MODKEY                          , XK_f                     , togglefullscr  , {0} }                              ,
+       { MODKEY|ShiftMask                , XK_f                     , setlayout      , {.v = &layouts[1]} }               ,
+       { MODKEY                          , XK_t                     , setlayout      , {.v = &layouts[0]} }               ,
+       { MODKEY|ShiftMask                , XK_m                     , spawn          , SHCMD("monitorSwapper")}           ,
+	// { MODKEY                          , XK_o                     , setlayout      , {.v = &layouts[4]} }               ,
+	// { MODKEY                          , XK_m                     , setlayout      , {.v = &layouts[2]} }               ,
+       { MODKEY                          , XK_s                     , spawn          , SHCMD("screenshot")}               ,
+       { MODKEY|ShiftMask                , XK_s                     , spawn          , SHCMD("systemctl suspend")}        ,
+       { MODKEY|ShiftMask                , XK_w                     , spawn          , SHCMD("setWallpaper")}             ,
+       { MODKEY                          , XK_Tab                   , view           , {0} }                              ,
+       { MODKEY                          , XK_space                 , spawn          , {.v = dmenucmd} }                  ,
+       { MODKEY|ShiftMask                , XK_space                 , togglefloating , {0} }                              ,
+       { MODKEY                          , XK_0                     , view           , {.ui = ~0 } }                      ,
+       { MODKEY|ShiftMask                , XK_0                     , tag            , {.ui = ~0 } }                      ,
+       { MODKEY                          , XK_comma                 , focusmon       , {.i = +1 } }                       ,
+       { MODKEY                          , XK_period                , focusmon       , {.i = -1 } }                       ,
+       { MODKEY                          , XK_minus                 , setgaps        , {.i = -1 } }                       ,
+       { MODKEY                          , XK_equal                 , setgaps        , {.i = +1 } }                       ,
+       { MODKEY|ShiftMask                , XK_equal                 , setgaps        , {.i = 0  } }                       ,
+       { MODKEY|ShiftMask                , XK_comma                 , tagmon         , {.i = +1 } }                       ,
+       { MODKEY|ShiftMask                , XK_period                , tagmon         , {.i = -1 } }                       ,
+       { MODKEY                          , XK_F1                    ,  togglescratch , {.v = scratchpadcmd } }            ,
+       { MODKEY                          , XK_F2                    ,  togglescratch , {.v = ncspotify     } }            ,
+       { MODKEY                          , XK_F3                    ,  togglescratch , {.v = pulsemixer    } }            ,
 	TAGKEYS(                        XK_1 , 0)
 	TAGKEYS(                        XK_2 , 1)
 	TAGKEYS(                        XK_3 , 2)
@@ -143,8 +159,8 @@ static Key keys[] = {
 	TAGKEYS(                        XK_7 , 6)
 	TAGKEYS(                        XK_8 , 7)
 	TAGKEYS(                        XK_9 , 8)
-        { MODKEY                             , XK_q                     , killclient     , {0} }                                           ,
-	{ MODKEY|ShiftMask                   , XK_q                     , quit           , {0} }                                           ,
+       { MODKEY                          , XK_q                     , killclient     , {0} }                              ,
+       { MODKEY|ShiftMask                , XK_q                     , quit           , {0} }                              ,
 };
 
 /* button definitions */
