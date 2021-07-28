@@ -102,7 +102,7 @@ static const char *next[]       = {"playerctl", "next"};
 #include "movestack.c"
 static Key keys[] = {
 	/* modifier                          ,     key                  ,     function   ,   argument */
-       { MODKEY|ShiftMask                , XK_l                     , spawn          , SHCMD("dm-tool lock") }            ,
+       { MODKEY|ShiftMask                , XK_l                     , spawn          , SHCMD("dm-logout") }            ,
        { 0                               , XF86XK_AudioRaiseVolume  , spawn          , SHCMD("audioSwapper up") }         ,
        { 0                               , XF86XK_AudioLowerVolume  , spawn          , SHCMD("audioSwapper down") }       ,
        { 0                               , XF86XK_AudioMute         , spawn          , SHCMD("audioSwapper mute") }       ,
