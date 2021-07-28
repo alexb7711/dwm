@@ -102,7 +102,7 @@ static const char *next[]       = {"playerctl", "next"};
 #include "movestack.c"
 static Key keys[] = {
 	/* modifier                          ,     key                  ,     function   ,   argument */
-       { MODKEY|ShiftMask                , XK_l                     , spawn          , SHCMD("dm-tool lock") }            ,
+       { MODKEY|ShiftMask                , XK_l                     , spawn          , SHCMD("dm-logout") }            ,
        { 0                               , XF86XK_AudioRaiseVolume  , spawn          , SHCMD("audioSwapper up") }         ,
        { 0                               , XF86XK_AudioLowerVolume  , spawn          , SHCMD("audioSwapper down") }       ,
        { 0                               , XF86XK_AudioMute         , spawn          , SHCMD("audioSwapper mute") }       ,
@@ -129,12 +129,14 @@ static Key keys[] = {
        { MODKEY                          , XK_f                     , togglefullscr  , {0} }                              ,
        { MODKEY|ShiftMask                , XK_f                     , setlayout      , {.v = &layouts[1]} }               ,
        { MODKEY                          , XK_t                     , setlayout      , {.v = &layouts[0]} }               ,
+       { MODKEY                          , XK_m                     , spawn          , SHCMD("dm-man")}           ,
        { MODKEY|ShiftMask                , XK_m                     , spawn          , SHCMD("monitorSwapper")}           ,
 	// { MODKEY                          , XK_o                     , setlayout      , {.v = &layouts[4]} }               ,
 	// { MODKEY                          , XK_m                     , setlayout      , {.v = &layouts[2]} }               ,
-       { MODKEY                          , XK_s                     , spawn          , SHCMD("screenshot")}               ,
-       { MODKEY|ShiftMask                , XK_s                     , spawn          , SHCMD("systemctl suspend")}        ,
+       { MODKEY                          , XK_s                     , spawn          , SHCMD("dm-kill") }                 ,
+       { MODKEY|ShiftMask                , XK_s                     , spawn          , SHCMD("screenshot")}               ,
        { MODKEY|ShiftMask                , XK_w                     , spawn          , SHCMD("setWallpaper")}             ,
+       { MODKEY                          , XK_y                     , spawn          , SHCMD("dm-youtube")}               ,
        { MODKEY                          , XK_Tab                   , view           , {0} }                              ,
        { MODKEY                          , XK_space                 , spawn          , {.v = dmenucmd} }                  ,
        { MODKEY|ShiftMask                , XK_space                 , togglefloating , {0} }                              ,
