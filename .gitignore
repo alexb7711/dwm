@@ -1,4 +1,5 @@
 dwm
+config.h
 
 # Ignore object files
 *.o
