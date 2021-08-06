@@ -60,10 +60,10 @@ As described by suckless:
 # Dependencies
 Just some of the programs that I call, and if you want them to work you should have them installed.
 
-* rofi [https://github.com/adi1090x/rofi](https://github.com/adi1090x/rofi)
+* dwm
 * playerctl
 * pulseaudio (pactl)
-* lightdm
+* slock
 * Inconsolata Nerd Font [https://github.com/ryanoasis/nerd-fonts](https://github.com/ryanoasis/nerd-fonts)
 
 # Patches
@@ -72,6 +72,7 @@ Just some of the programs that I call, and if you want them to work you should h
 * MoveStack
 * ActualFullScreen
 * FakeFullScreen
+* Swallow
 
 # Running dwm
 To get dwm working, the only thing that you need is to have `dwm` in your `~/.xinitrc`. If you want it to reload dwm when you make a new build you can put the following instead:
