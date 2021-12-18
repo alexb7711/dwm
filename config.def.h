@@ -43,7 +43,7 @@ static const Rule rules[] = {
 	/* class                        , instance , title          , tags mask , isfloating , isterminal , noswallow , monitor , scratch key */
 	{ "Brave"                       , NULL     , NULL           , 0         , 0          , 0          , 1         , -1      , 0   } ,
 	{ "Gimp"                        , NULL     , NULL           , 0         , 1          , 0          , 0         , -1      , 0   } ,
-	{ "MATLAB R2017b - student use" , NULL     , NULL           , 0         , 1          , 0          , 1         , -1      , 0   } ,
+	{ "MATLAB R2020b - academic use", NULL     , NULL           , 0         , 1          , 0          , 1         , -1      , 0   } ,
 	{ "rviz"                        , NULL     , NULL           , 0         , 0          , 0          , 1         , -1      , 0   } ,
 	{ NULL                          , NULL     , "scratchpad"   , 0         , 1          , 0          , 1         , -1      , 's' } ,
 	{ NULL                          , NULL     , "ncspot"       , 0         , 1          , 0          , 1         , -1      , 'n' } ,
