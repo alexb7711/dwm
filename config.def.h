@@ -87,6 +87,7 @@ static const char *dmenucmd[]   = { "dmenu_run", "-m", dmenumon, "-fn", dmenufon
 static const char *clpmnucmd[]  = { "clipmenu", NULL };
 static const char *termcmd[]    = { "tabbed", "-r", "2", "-c", "st", "-w", "''", NULL};
 static const char *browsercmd[] = { "brave", NULL};
+static const char *editorcmd[]  = { "emacsclient", "-c", "-a", "emacs", NULL};
 
 /*First arg only serves to match against key in rules*/
 static const char *scratchpadcmd[] = {"s" , "st" , "-t" , "scratchpad" , NULL};
@@ -120,6 +121,7 @@ static Key keys[] = {
        { MODKEY                              , XK_c                     , setlayout      , {.v = &layouts[2]} }                        ,
        { MODKEY|ShiftMask                    , XK_c                     , spawn          , {.v = clpmnucmd}}                           ,
        { MODKEY|ShiftMask                    , XK_d                     , spawn          , SHCMD("dm-kill") }                          ,
+       { MODKEY|ShiftMask                    , XK_e                     , spawn          , {.v = editorcmd}}                           ,
        { MODKEY                              , XK_j                     , focusstack     , {.i = +1 } }                                ,
        { MODKEY                              , XK_k                     , focusstack     , {.i = -1 } }                                ,
        { MODKEY                              , XK_i                     , incnmaster     , {.i = +1 } }                                ,
