@@ -9,3 +9,4 @@ config.h
 
 # Ignore tags
 tags/
+tags
