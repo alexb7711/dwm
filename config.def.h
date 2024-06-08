@@ -44,16 +44,33 @@ static const Rule rules[] = {
      */
     /* class , instance , title , tags mask , isfloating , isterminal ,
        noswallow , monitor , scratch key */
+    // Misc. Applications
     {"Brave", NULL, NULL, 1 << 0, 0, 0, 1, 2, 0},
     {"Gimp", NULL, NULL, 0, 1, 0, 0, -1, 0},
+    {"Nextcloud", NULL, NULL, 1 << 8, 0, 1, 0, 1, 0},
+
+    // Gaming
+    {"steam", NULL, NULL, 1 << 3, 0, 1, 0, 0, 0},
+    {"discord", NULL, NULL, 1 << 7, 0, 1, 0, 1, 0},
+
+    // Scratch pads
     {NULL, NULL, "ncspot", 0, 1, 0, 1, -1, 'n'},
     {NULL, NULL, "pulsemixer", 0, 1, 0, 1, -1, 'p'},
     {NULL, NULL, "scratchpad", 0, 1, 0, 1, -1, 's'},
+
+    // Suckless
     {"St", NULL, NULL, 0, 0, 1, 1, -1, 0},
     {"obs", NULL, NULL, 1 << 8, 0, 1, 0, 2, 0},
     {"tabbed", NULL, "st", 0, 0, 1, 0, -1, 0},
-    {"Nextcloud", NULL, NULL, 1 << 8, 0, 1, 0, 1, 0},
-    {"discord", NULL, NULL, 1 << 7, 0, 1, 0, 1, 0},
+
+    // CAD and Slicers
+    {"PrusaSlicer", NULL, NULL, 1 << 2, 0, 1, 0, -1, 0},
+    {"FreeCAD", NULL, NULL, 1 << 2, 0, 1, 0, -1, 0},
+
+    // Document Tools
+    {"Zotero", NULL, NULL, 1 << 1, 0, 1, 0, -1, 0},
+    {"calibre", NULL, NULL, 1 << 1, 0, 1, 0, -1, 0},
+
     {NULL, NULL, "Event Tester", 0, 0, 0, 1, -1, 0}, /* xev */
 };
 
