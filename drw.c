@@ -76,7 +76,7 @@ drw_resize(Drw *drw, unsigned int w, unsigned int h)
 	drw->h = h;
 	if (drw->drawable)
 		XFreePixmap(drw->dpy, drw->drawable);
-	drw->drawable = XCreatePixmap(drw->dpy, drw->root, w, h, drw->depth);
+	drw->drawable = XCreatePixmap(drw->dpy, drw->root, w, h, DefaultDepth(drw->dpy, drw->screen));
 }
 
 void
@@ -175,7 +175,8 @@ drw_clr_create(Drw *drw, Clr *dest, const char *clrname, unsigned int alpha)
 	if (!drw || !dest || !clrname)
 		return;
 
-	if (!XftColorAllocName(drw->dpy, drw->visual, drw->cmap,
+	if (!XftColorAllocName(drw->dpy, drw->visual,
+	                       drw->cmap,
 	                       clrname, dest))
 		die("error, cannot allocate color '%s'", clrname);
 
@@ -252,7 +253,15 @@ drw_text(Drw *drw, int x, int y, unsigned int w, unsigned int h, unsigned int lp
 	} else {
 		XSetForeground(drw->dpy, drw->gc, drw->scheme[invert ? ColFg : ColBg].pixel);
 		XFillRectangle(drw->dpy, drw->drawable, drw->gc, x, y, w, h);
-		d = XftDrawCreate(drw->dpy, drw->drawable, drw->visual, drw->cmap);
+/* <<<<<<< HEAD */
+/* 		d = XftDrawCreate(drw->dpy, drw->drawable, drw->visual, drw->cmap); */
+/* ======= */
+		if (w < lpad)
+			return x + w;
+		d = XftDrawCreate(drw->dpy, drw->drawable,
+		                  drw->visual,
+		                  drw->cmap);
+/* >>>>>>> suckless/master */
 		x += lpad;
 		w -= lpad;
 	}
