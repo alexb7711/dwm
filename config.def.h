@@ -9,15 +9,17 @@ static const unsigned int snap = 32;    /* snap pixel */
 static const int swallowfloating = 0;   /* 1 means swallow floating windows by default */
 static const int showbar = 1; /* 0 means no bar */
 static const int topbar = 0;  /* 0 means bottom bar */
-static const char *fonts[] = {"SpaceMono Nerd Font Mono:size=11"};
-static const char dmenufont[] = "SpaceMono Nerd Font Mono:size=11";
-static const char normbg[] = "#282828";
-static const char normborder[] = "#282828";
-static const char normfg[] = "#eeeeee";
-static const char selfg[] = "#eeeeee";
-static const char selbg[] = "#458588";
-static const char selborder[] = "#689d6a";
-static const char *colors[][3] = {
+
+static char *fonts[] = {"SpaceMono Nerd Font Mono:size=11"};
+static char dmenufont[] = "SpaceMono Nerd Font Mono:size=11";
+
+static char normbg[] = "#282828";
+static char normborder[] = "#282828";
+static char normfg[] = "#eeeeee";
+static char selfg[] = "#eeeeee";
+static char selbg[] = "#458588";
+static char selborder[] = "#689d6a";
+static char *colors[][3] = {
     /*               fg     , bg     , border       , */
     [SchemeNorm] = {normfg, normbg, normborder},
     [SchemeSel] = {selfg, selbg, selborder},
@@ -109,13 +111,12 @@ static const char *dmenucmd[] = {
     "dmenu_run", "-m",   dmenumon, "-fn", dmenufont, "-nb", normbg,
     "-nf",       normfg, "-sb",    selbg, "-sf",     selfg, NULL};
 static const char *clpmnucmd[] = {"clipmenu", NULL};
-static const char *termcmd[] = {"tabbed", "-r", "2",  "-c",
-                                "st",     "-w", "''", NULL};
+static const char *termcmd[] = {"tabbed", "-r", "2",  "-c", "st", "-w", "''", NULL};
 static const char *browsercmd[] = {"brave", NULL};
-static const char *editorcmd[] = {"emacsclient", "-c", "-a", "emacs", NULL};
+static const char *editorcmd[] = {"tabbed", "-r", "2", "st", "-w", "''", "-e", "vim"};
 
 /*First arg only serves to match against key in rules*/
-static const char *scratchpadcmd[] = {"s", "st", "-t", "scratchpad", NULL};
+static const char *scratchpadcmd[] = {"s", "tabbed", "-r", "2", "-c", "st", "-t", "scratchpad", NULL};
 static const char *ncspotify[] = {"n",  "st",     "-t", "ncspot",
                                   "-e", "ncspot", NULL};
 static const char *pulsemixer[] = {"p",  "st",         "-t", "pulsemixer",
@@ -129,6 +130,17 @@ static const char *brdowncmd[] = {"sudo", "xbacklight", "-dec", "10", NULL};
 static const char *playpause[] = {"playerctl", "play-pause"};
 static const char *previous[] = {"playerctl", "previous"};
 static const char *next[] = {"playerctl", "next"};
+
+/*
+ * Xresources preferences to load at startup
+ */
+ResourcePref resources[] = {
+   { "color0",      STRING,  &normborder },
+   { "background",  STRING,  &normbg },
+   { "foreground",  STRING,  &normfg },
+   { "color12",     STRING,  &selbg },
+   { "color2",      STRING,  &selborder },
+};
 
 #include "movestack.c"
 static Key keys[] = {
