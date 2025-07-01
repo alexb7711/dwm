@@ -112,7 +112,7 @@ static const char *dmenucmd[] = {
     "-nf",       normfg, "-sb",    selbg, "-sf",     selfg, NULL};
 static const char *clpmnucmd[] = {"clipmenu", NULL};
 static const char *termcmd[] = {"tabbed", "-r", "2",  "-c", "st", "-w", "''", NULL};
-static const char *browsercmd[] = {"brave", NULL};
+static const char *browsercmd[] = {"brave-browser", NULL};
 static const char *editorcmd[] = {"tabbed", "-r", "2", "st", "-w", "''", "-e", "vim"};
 
 /*First arg only serves to match against key in rules*/
@@ -176,26 +176,26 @@ static Key keys[] = {
     {MODKEY | ShiftMask, XK_f, setlayout, {.v = &layouts[1]}},
     {MODKEY, XK_t, setlayout, {.v = &layouts[0]}},
     {MODKEY, XK_m, spawn, SHCMD("dm-man")},
-    {MODKEY | ShiftMask, XK_m, spawn, SHCMD("monitorSwapper")},
-    {MODKEY, XK_o, spawn, SHCMD("~/code/scripts/dmenu/dm-books")},
+    {MODKEY | ShiftMask, XK_m, spawn, SHCMD("setmonitor")},
+    {MODKEY, XK_o, spawn, SHCMD("dm-books")},
     // { MODKEY                          , XK_m                     , setlayout
     // , {.v = &layouts[2]} }                        ,
     {MODKEY | ShiftMask, XK_s, spawn, SHCMD("screenshot")},
-    {MODKEY | ShiftMask, XK_v, spawn, SHCMD("~/code/scripts/ezw")},
-    {MODKEY | ShiftMask, XK_w, spawn, SHCMD("setWallpaper")},
+    {MODKEY | ShiftMask, XK_v, spawn, SHCMD("ezw")},
+    {MODKEY | ShiftMask, XK_w, spawn, SHCMD("setbg")},
     {MODKEY, XK_y, spawn, SHCMD("dm-youtube")},
     {MODKEY, XK_Tab, view, {0}},
     {MODKEY, XK_space, spawn, {.v = dmenucmd}},
     {MODKEY | ShiftMask, XK_space, togglefloating, {0}},
     {MODKEY, XK_0, view, {.ui = ~0}},
     {MODKEY | ShiftMask, XK_0, tag, {.ui = ~0}},
-    {MODKEY, XK_comma, focusmon, {.i = -1}},
-    {MODKEY, XK_period, focusmon, {.i = +1}},
+    {MODKEY, XK_comma, focusmon, {.i = +1}},
+    {MODKEY, XK_period, focusmon, {.i = -1}},
     {MODKEY, XK_minus, setgaps, {.i = -1}},
     {MODKEY, XK_equal, setgaps, {.i = +1}},
     {MODKEY | ShiftMask, XK_equal, setgaps, {.i = 0}},
-    {MODKEY | ShiftMask, XK_comma, tagmon, {.i = -1}},
-    {MODKEY | ShiftMask, XK_period, tagmon, {.i = +1}},
+    {MODKEY | ShiftMask, XK_comma, tagmon, {.i = +1}},
+    {MODKEY | ShiftMask, XK_period, tagmon, {.i = -1}},
     {MODKEY, XK_F1, togglescratch, {.v = scratchpadcmd}},
     {MODKEY, XK_F2, togglescratch, {.v = ncspotify}},
     {MODKEY, XK_F3, togglescratch, {.v = pulsemixer}},
