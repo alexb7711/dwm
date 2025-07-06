@@ -21,8 +21,8 @@ static char selbg[] = "#458588";
 static char selborder[] = "#689d6a";
 static char *colors[][3] = {
     /*               fg     , bg     , border       , */
-    [SchemeNorm] = {normfg, normbg, normborder},
-    [SchemeSel] = {selfg, selbg, selborder},
+    [SchemeNorm] = {normfg  , normbg , normborder}  ,
+    [SchemeSel] = {selfg    , selbg  , selborder}   ,
 };
 
 static const unsigned int baralpha = 0xd0;
@@ -41,36 +41,29 @@ static const Rule rules[] = {
      *  WM_CLASS(STRING) = instance, class
      *  WM_NAME(STRING) = title
      */
-    /* class , instance , title , tags mask , isfloating , isterminal ,
-       noswallow , monitor , scratch key */
-    // Misc. Applications
-    {"Brave", NULL, NULL, 1 << 0, 0, 0, 1, 2, 0},
-    {"Gimp", NULL, NULL, 0, 1, 0, 0, -1, 0},
-    {"Nextcloud", NULL, NULL, 1 << 8, 0, 1, 0, 1, 0},
-
-    // Gaming
-    {"steam", NULL, NULL, 1 << 3, 0, 1, 0, 0, 0},
-    {"discord", NULL, NULL, 1 << 7, 0, 1, 0, 1, 0},
-
-    // Scratch pads
-    {NULL, NULL, "ncspot", 0, 1, 0, 1, -1, 'n'},
-    {NULL, NULL, "pulsemixer", 0, 1, 0, 1, -1, 'p'},
-    {NULL, NULL, "scratchpad", 0, 1, 0, 1, -1, 's'},
-
-    // Suckless
-    {"St", NULL, NULL, 0, 0, 1, 1, -1, 0},
-    {"obs", NULL, NULL, 1 << 8, 0, 1, 0, 2, 0},
-    {"tabbed", NULL, "st", 0, 0, 1, 0, -1, 0},
-
-    // CAD and Slicers
-    {"PrusaSlicer", NULL, NULL, 1 << 2, 0, 1, 0, -1, 0},
-    {"FreeCAD", NULL, NULL, 1 << 2, 0, 1, 0, -1, 0},
-
-    // Document Tools
-    {"Zotero", NULL, NULL, 1 << 1, 0, 1, 0, -1, 0},
-    {"calibre", NULL, NULL, 1 << 1, 0, 1, 0, -1, 0},
-
-    {NULL, NULL, "Event Tester", 0, 0, 0, 1, -1, 0}, /* xev */
+    /* class             , instance , title                                , tags mask , isfloating , isterminal , noswallow , monitor */
+    // Misc. Applications,          ,                                      ,           ,            ,            ,           ,                        ,
+    {"Brave"             , NULL     , NULL                                 , 1 << 0    , 0          , 0          , 1         , 2       }              ,
+    {"Gimp"              , NULL     , NULL                                 , 0         , 1          , 0          , 0         , -1      }              ,
+    {"Nextcloud"         , NULL     , NULL                                 , 1 << 8    , 0          , 1          , 0         , 0       }              ,
+    // Gaming            ,          ,                                      ,           ,            ,            ,           ,                        ,
+    {"steam"             , NULL     , NULL                                 , 1 << 3    , 0          , 1          , 0         , 0       }              ,
+    {"discord"           , NULL     , NULL                                 , 1 << 7    , 0          , 1          , 0         , 0       }              ,
+    // Scratch pads      ,          ,                                      ,           ,            ,            ,           ,                        ,
+    {NULL                , NULL     , "ncspot'"                            , 0         , 1          , 0          , 1         , -1      }              ,
+    {NULL                , NULL     , "pulsemixer"                         , 0         , 1          , 0          , 1         , -1      }              ,
+    {NULL                , NULL     , "scratchpad"                         , 0         , 1          , 0          , 1         , -1      }              ,
+    // Suckless          ,          ,                                      ,           ,            ,            ,           ,                        ,
+    {"St"                , NULL     , NULL                                 , 0         , 0          , 1          , 1         , -1      }              ,
+    {"obs"               , NULL     , NULL                                 , 1 << 8    , 0          , 1          , 0         , 2       }              ,
+    {"tabbed"            , NULL     , "st"                                 , 0         , 0          , 1          , 0         , -1      }              ,
+    // CAD and Slicers   ,          ,                                      ,           ,            ,            ,           ,                        ,
+    {"PrusaSlicer"       , NULL     , NULL                                 , 1 << 2    , 0          , 1          , 0         , -1      }              ,
+    {"FreeCAD"           , NULL     , NULL                                 , 1 << 2    , 0          , 1          , 0         , -1      }              ,
+    // Document Tools    ,          ,                                      ,           ,            ,            ,           ,                        ,
+    {"Zotero"            , NULL     , NULL                                 , 1 << 1    , 0          , 1          , 0         , -1      }              ,
+    {"calibre"           , NULL     , NULL                                 , 1 << 1    , 0          , 1          , 0         , -1      }              ,
+    {NULL                , NULL     , "Event Tester"                       , 0         , 0          , 0          , 1         , -1      }              , /* xev */
 };
 
 /* layout(s) */
@@ -144,65 +137,69 @@ ResourcePref resources[] = {
 
 #include "movestack.c"
 static Key keys[] = {
-    /* modifier                          , key                      , function
-       , argument */
-    {0, XF86XK_AudioRaiseVolume, spawn, SHCMD("audioSwapper up")},
-    {0, XF86XK_AudioLowerVolume, spawn, SHCMD("audioSwapper down")},
-    {0, XF86XK_AudioMute, spawn, SHCMD("audioSwapper mute")},
-    {0, XF86XK_MonBrightnessUp, spawn, {.v = brupcmd}},
-    {0, XF86XK_MonBrightnessDown, spawn, {.v = brdowncmd}},
-    {0, XF86XK_AudioPlay, spawn, {.v = playpause}},
-    {0, XF86XK_AudioPause, spawn, {.v = playpause}},
-    {0, XF86XK_AudioNext, spawn, {.v = next}},
-    {0, XF86XK_AudioPrev, spawn, {.v = previous}},
-    {MODKEY, XK_Return, spawn, {.v = termcmd}},
-    {MODKEY, XK_b, togglebar, {0}},
-    {MODKEY | ShiftMask, XK_b, spawn, SHCMD("dm-bluetooth")},
-    {MODKEY, XK_c, setlayout, {.v = &layouts[2]}},
-    {MODKEY | ShiftMask, XK_c, spawn, {.v = clpmnucmd}},
-    {MODKEY | ShiftMask, XK_d, spawn, SHCMD("dm-kill")},
-    {MODKEY | ShiftMask, XK_e, spawn, {.v = editorcmd}},
-    {MODKEY, XK_j, focusstack, {.i = +1}},
-    {MODKEY, XK_k, focusstack, {.i = -1}},
-    {MODKEY, XK_i, incnmaster, {.i = +1}},
-    {MODKEY | ShiftMask, XK_i, spawn, {.v = browsercmd}},
-    {MODKEY, XK_d, incnmaster, {.i = -1}},
-    {MODKEY, XK_h, setmfact, {.f = -0.05}},
-    {MODKEY, XK_l, setmfact, {.f = +0.05}},
-    {MODKEY | ShiftMask, XK_l, spawn, SHCMD("dm-logout")},
-    {MODKEY | ShiftMask, XK_j, movestack, {.i = +1}},
-    {MODKEY | ShiftMask, XK_k, movestack, {.i = -1}},
-    {MODKEY, XK_f, togglefullscr, {0}},
-    {MODKEY | ShiftMask, XK_f, setlayout, {.v = &layouts[1]}},
-    {MODKEY, XK_t, setlayout, {.v = &layouts[0]}},
-    {MODKEY, XK_m, spawn, SHCMD("dm-man")},
-    {MODKEY | ShiftMask, XK_m, spawn, SHCMD("setmonitor")},
-    {MODKEY, XK_o, spawn, SHCMD("dm-books")},
-    // { MODKEY                          , XK_m                     , setlayout
-    // , {.v = &layouts[2]} }                        ,
-    {MODKEY | ShiftMask, XK_s, spawn, SHCMD("screenshot")},
-    {MODKEY | ShiftMask, XK_v, spawn, SHCMD("ezw")},
-    {MODKEY | ShiftMask, XK_w, spawn, SHCMD("setbg")},
-    {MODKEY, XK_y, spawn, SHCMD("dm-youtube")},
-    {MODKEY, XK_Tab, view, {0}},
-    {MODKEY, XK_space, spawn, {.v = dmenucmd}},
-    {MODKEY | ShiftMask, XK_space, togglefloating, {0}},
-    {MODKEY, XK_0, view, {.ui = ~0}},
-    {MODKEY | ShiftMask, XK_0, tag, {.ui = ~0}},
-    {MODKEY, XK_comma, focusmon, {.i = +1}},
-    {MODKEY, XK_period, focusmon, {.i = -1}},
-    {MODKEY, XK_minus, setgaps, {.i = -1}},
-    {MODKEY, XK_equal, setgaps, {.i = +1}},
-    {MODKEY | ShiftMask, XK_equal, setgaps, {.i = 0}},
-    {MODKEY | ShiftMask, XK_comma, tagmon, {.i = +1}},
-    {MODKEY | ShiftMask, XK_period, tagmon, {.i = -1}},
-    {MODKEY, XK_F1, togglescratch, {.v = scratchpadcmd}},
-    {MODKEY, XK_F2, togglescratch, {.v = ncspotify}},
-    {MODKEY, XK_F3, togglescratch, {.v = pulsemixer}},
-    TAGKEYS(XK_1, 0) TAGKEYS(XK_2, 1) TAGKEYS(XK_3, 2) TAGKEYS(XK_4, 3)
-        TAGKEYS(XK_5, 4) TAGKEYS(XK_6, 5) TAGKEYS(XK_7, 6) TAGKEYS(XK_8, 7)
-            TAGKEYS(XK_9, 8){MODKEY, XK_q, killclient, {0}},
-    {MODKEY | ShiftMask, XK_q, quit, {0}},
+    /* modifier                          , key                                         , function      , argument */
+    {0                                   , XF86XK_AudioRaiseVolume                     , spawn         , SHCMD("setvolume up")}  ,
+    {0                                   , XF86XK_AudioLowerVolume                     , spawn         , SHCMD("setvolume down")},
+    {0                                   , XF86XK_AudioMute                            , spawn         , SHCMD("setvolume mute")},
+    {0                                   , XF86XK_MonBrightnessUp                      , spawn         , {.v = brupcmd}}         ,
+    {0                                   , XF86XK_MonBrightnessDown                    , spawn         , {.v = brdowncmd}}       ,
+    {0                                   , XF86XK_AudioPlay                            , spawn         , {.v = playpause}}       ,
+    {0                                   , XF86XK_AudioPause                           , spawn         , {.v = playpause}}       ,
+    {0                                   , XF86XK_AudioNext                            , spawn         , {.v = next}}            ,
+    {0                                   , XF86XK_AudioPrev                            , spawn         , {.v = previous}}        ,
+    {MODKEY                              , XK_Return                                   , spawn         , {.v = termcmd}}         ,
+    {MODKEY                              , XK_b                                        , togglebar     , {0}}                    ,
+    {MODKEY | ShiftMask                  , XK_b                                        , spawn         , SHCMD("dm-bluetooth")}  ,
+    {MODKEY                              , XK_c                                        , setlayout     , {.v = &layouts[2]}}     ,
+    {MODKEY | ShiftMask                  , XK_c                                        , spawn         , {.v = clpmnucmd}}       ,
+    {MODKEY | ShiftMask                  , XK_d                                        , spawn         , SHCMD("dm-kill")}       ,
+    {MODKEY | ShiftMask                  , XK_e                                        , spawn         , {.v = editorcmd}}       ,
+    {MODKEY                              , XK_j                                        , focusstack    , {.i = +1}}              ,
+    {MODKEY                              , XK_k                                        , focusstack    , {.i = -1}}              ,
+    {MODKEY                              , XK_i                                        , incnmaster    , {.i = +1}}              ,
+    {MODKEY | ShiftMask                  , XK_i                                        , spawn         , {.v = browsercmd}}      ,
+    {MODKEY                              , XK_d                                        , incnmaster    , {.i = -1}}              ,
+    {MODKEY                              , XK_h                                        , setmfact      , {.f = -0.05}}           ,
+    {MODKEY                              , XK_l                                        , setmfact      , {.f = +0.05}}           ,
+    {MODKEY | ShiftMask                  , XK_l                                        , spawn         , SHCMD("dm-logout")}     ,
+    {MODKEY | ShiftMask                  , XK_j                                        , movestack     , {.i = +1}}              ,
+    {MODKEY | ShiftMask                  , XK_k                                        , movestack     , {.i = -1}}              ,
+    {MODKEY                              , XK_f                                        , togglefullscr , {0}}                    ,
+    {MODKEY | ShiftMask                  , XK_f                                        , setlayout     , {.v = &layouts[1]}}     ,
+    {MODKEY | ShiftMask                  , XK_t                                        , setlayout     , {.v = &layouts[0]}}     ,
+    {MODKEY                              , XK_m                                        , spawn         , SHCMD("dm-man")}        ,
+    {MODKEY | ShiftMask                  , XK_m                                        , spawn         , SHCMD("setmonitor")}    ,
+    {MODKEY                              , XK_o                                        , spawn         , SHCMD("dm-books")}      ,
+    {MODKEY | ShiftMask                  , XK_s                                        , spawn         , SHCMD("screenshot")}    ,
+    {MODKEY | ShiftMask                  , XK_v                                        , spawn         , SHCMD("ezw")}           ,
+    {MODKEY | ShiftMask                  , XK_w                                        , spawn         , SHCMD("setbg")}         ,
+    {MODKEY                              , XK_y                                        , spawn         , SHCMD("dm-youtube")}    ,
+    {MODKEY                              , XK_Tab                                      , view          , {0}}                    ,
+    {MODKEY                              , XK_space                                    , spawn         , {.v = dmenucmd}}        ,
+    {MODKEY                              , XK_backslash                                , togglefloating, {0}}                    ,
+    {MODKEY                              , XK_0                                        , view          , {.ui = ~0}}             ,
+    {MODKEY | ShiftMask                  , XK_0                                        , tag           , {.ui = ~0}}             ,
+    {MODKEY                              , XK_comma                                    , focusmon      , {.i = +1}}              ,
+    {MODKEY                              , XK_period                                   , focusmon      , {.i = -1}}              ,
+    {MODKEY                              , XK_minus                                    , setgaps       , {.i = -1}}              ,
+    {MODKEY                              , XK_equal                                    , setgaps       , {.i = +1}}              ,
+    {MODKEY | ShiftMask                  , XK_equal                                    , setgaps       , {.i = 0}}               ,
+    {MODKEY | ShiftMask                  , XK_comma                                    , tagmon        , {.i = +1}}              ,
+    {MODKEY | ShiftMask                  , XK_period                                   , tagmon        , {.i = -1}}              ,
+    {MODKEY                              , XK_F1                                       , spawn         , {.v = scratchpadcmd}}   ,
+    {MODKEY                              , XK_F2                                       , spawn         , {.v = ncspotify}}       ,
+    {MODKEY                              , XK_F3                                       , spawn         , {.v = pulsemixer}}      ,
+    {MODKEY                              , XK_q                                        , killclient    , {0}}                    ,
+    {MODKEY | ShiftMask                  , XK_Delete                                   , quit          , {0}}                    ,
+    TAGKEYS(XK_1, 0)
+    TAGKEYS(XK_2, 1)
+    TAGKEYS(XK_3, 2)
+    TAGKEYS(XK_4, 3)
+    TAGKEYS(XK_5, 4)
+    TAGKEYS(XK_6, 5)
+    TAGKEYS(XK_7, 6)
+    TAGKEYS(XK_8, 7)
+    TAGKEYS(XK_9, 8)
 };
 
 /* button definitions */
