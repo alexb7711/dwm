@@ -33,6 +33,23 @@ static const unsigned int alphas[][3] = {
     [SchemeSel] = {OPAQUE, baralpha, borderalpha},
 };
 
+/* Scratch Pads */
+typedef struct {
+   const char *name;
+   const void *cmd;
+} Sp;
+
+static const char *scratchpadcmd[] = {"st", "-n", "spterm", "-g", "120x34", NULL};
+static const char *ncspotify[]     = {"st", "-n",  "spspotify", "-e", "flatpak", "run", "io.github.hrkfdn.ncspot", NULL};
+static const char *pulsemixer[]    = {"st", "-n", "sppulsemixer", "-g", "144x41", "-e", "pulsemixer", NULL};
+
+static Sp scratchpads[] = {
+   /* name          cmd  */
+   {"spterm"      , scratchpadcmd}   ,
+   {"spspotify"   , ncspotify}       ,
+   {"sppulsemixer", pulsemixer}      ,
+};
+
 /* tagging */
 static const char *tags[] = {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
 
@@ -41,29 +58,29 @@ static const Rule rules[] = {
      *  WM_CLASS(STRING) = instance, class
      *  WM_NAME(STRING) = title
      */
-    /* class             , instance , title                                , tags mask , isfloating , isterminal , noswallow , monitor */
-    // Misc. Applications,          ,                                      ,           ,            ,            ,           ,                        ,
-    {"Brave"             , NULL     , NULL                                 , 1 << 0    , 0          , 0          , 1         , 2       }              ,
-    {"Gimp"              , NULL     , NULL                                 , 0         , 1          , 0          , 0         , -1      }              ,
-    {"Nextcloud"         , NULL     , NULL                                 , 1 << 8    , 0          , 1          , 0         , 0       }              ,
-    // Gaming            ,          ,                                      ,           ,            ,            ,           ,                        ,
-    {"steam"             , NULL     , NULL                                 , 1 << 3    , 0          , 1          , 0         , 0       }              ,
-    {"discord"           , NULL     , NULL                                 , 1 << 7    , 0          , 1          , 0         , 0       }              ,
-    // Scratch pads      ,          ,                                      ,           ,            ,            ,           ,                        ,
-    {NULL                , NULL     , "ncspot'"                            , 0         , 1          , 0          , 1         , -1      }              ,
-    {NULL                , NULL     , "pulsemixer"                         , 0         , 1          , 0          , 1         , -1      }              ,
-    {NULL                , NULL     , "scratchpad"                         , 0         , 1          , 0          , 1         , -1      }              ,
-    // Suckless          ,          ,                                      ,           ,            ,            ,           ,                        ,
-    {"St"                , NULL     , NULL                                 , 0         , 0          , 1          , 1         , -1      }              ,
-    {"obs"               , NULL     , NULL                                 , 1 << 8    , 0          , 1          , 0         , 2       }              ,
-    {"tabbed"            , NULL     , "st"                                 , 0         , 0          , 1          , 0         , -1      }              ,
-    // CAD and Slicers   ,          ,                                      ,           ,            ,            ,           ,                        ,
-    {"PrusaSlicer"       , NULL     , NULL                                 , 1 << 2    , 0          , 1          , 0         , -1      }              ,
-    {"FreeCAD"           , NULL     , NULL                                 , 1 << 2    , 0          , 1          , 0         , -1      }              ,
-    // Document Tools    ,          ,                                      ,           ,            ,            ,           ,                        ,
-    {"Zotero"            , NULL     , NULL                                 , 1 << 1    , 0          , 1          , 0         , -1      }              ,
-    {"calibre"           , NULL     , NULL                                 , 1 << 1    , 0          , 1          , 0         , -1      }              ,
-    {NULL                , NULL     , "Event Tester"                       , 0         , 0          , 0          , 1         , -1      }              , /* xev */
+    // class             , instance       , title                                , tags mask , isfloating , isterminal , noswallow , monitor                ,
+    // Misc. Applications,                ,                                      ,           ,            ,            ,           ,                        ,
+    {"Brave"             , NULL           , NULL                                 , 1 << 0    , 0          , 0          , 1         , 2       }              ,
+    {"Gimp"              , NULL           , NULL                                 , 0         , 1          , 0          , 0         , -1      }              ,
+    {"Nextcloud"         , NULL           , NULL                                 , 1 << 8    , 0          , 1          , 0         , 0       }              ,
+    // Gaming            ,                ,                                      ,           ,            ,            ,           ,                        ,
+    {"steam"             , NULL           , NULL                                 , 1 << 3    , 0          , 1          , 0         , 0       }              ,
+    {"discord"           , NULL           , NULL                                 , 1 << 7    , 0          , 1          , 0         , 0       }              ,
+    // Suckless          ,                ,                                      ,           ,            ,            ,           ,                        ,
+    {"St"                , NULL           , NULL                                 , 0         , 0          , 1          , 1         , -1      }              ,
+    {"obs"               , NULL           , NULL                                 , 1 << 8    , 0          , 1          , 0         , 2       }              ,
+    {"tabbed"            , NULL           , "st"                                 , 0         , 0          , 1          , 0         , -1      }              ,
+    // Scratch pads      ,                ,                                      ,           ,            ,            ,           ,                        ,
+    {NULL                , "spterm"       , NULL                                 , SPTAG(0)  , 1          , 1          , 0         , 1       }              ,
+    {NULL                , "spspotify"    , NULL                                 , SPTAG(1)  , 1          , 1          , 1         , 1       }              ,
+    {NULL                , "sppulsemixer" , NULL                                 , SPTAG(2)  , 1          , 1          , 1         , 1       }              ,
+    // CAD and Slicers   ,                ,                                      ,           ,            ,            ,           ,                        ,
+    {"PrusaSlicer"       , NULL           , NULL                                 , 1 << 2    , 0          , 1          , 0         , -1      }              ,
+    {"FreeCAD"           , NULL           , NULL                                 , 1 << 2    , 0          , 1          , 0         , -1      }              ,
+    // Document Tools    ,                ,                                      ,           ,            ,            ,           ,                        ,
+    {"Zotero"            , NULL           , NULL                                 , 1 << 1    , 0          , 1          , 0         , -1      }              ,
+    {"calibre"           , NULL           , NULL                                 , 1 << 1    , 0          , 1          , 0         , -1      }              ,
+    {NULL                , NULL           , "Event Tester"                       , 0         , 0          , 0          , 1         , -1      }              , /* xev */
 };
 
 /* layout(s) */
@@ -107,13 +124,6 @@ static const char *clpmnucmd[] = {"clipmenu", NULL};
 static const char *termcmd[] = {"tabbed", "-r", "2",  "-c", "st", "-w", "''", NULL};
 static const char *browsercmd[] = {"brave-browser", NULL};
 static const char *editorcmd[] = {"tabbed", "-r", "2", "st", "-w", "''", "-e", "vim"};
-
-/*First arg only serves to match against key in rules*/
-static const char *scratchpadcmd[] = {"s", "tabbed", "-r", "2", "-c", "st", "-t", "scratchpad", NULL};
-static const char *ncspotify[] = {"n",  "st",     "-t", "ncspot",
-                                  "-e", "ncspot", NULL};
-static const char *pulsemixer[] = {"p",  "st",         "-t", "pulsemixer",
-                                   "-e", "pulsemixer", NULL};
 
 // Backlight Control
 static const char *brupcmd[] = {"sudo", "xbacklight", "-inc", "10", NULL};
@@ -186,9 +196,9 @@ static Key keys[] = {
     {MODKEY | ShiftMask                  , XK_equal                                    , setgaps       , {.i = 0}}               ,
     {MODKEY | ShiftMask                  , XK_comma                                    , tagmon        , {.i = +1}}              ,
     {MODKEY | ShiftMask                  , XK_period                                   , tagmon        , {.i = -1}}              ,
-    {MODKEY                              , XK_F1                                       , spawn         , {.v = scratchpadcmd}}   ,
-    {MODKEY                              , XK_F2                                       , spawn         , {.v = ncspotify}}       ,
-    {MODKEY                              , XK_F3                                       , spawn         , {.v = pulsemixer}}      ,
+    {MODKEY                              , XK_F1                                       , togglescratch , {.ui = 0}}   ,
+    {MODKEY                              , XK_F2                                       , togglescratch , {.ui = 1}}       ,
+    {MODKEY                              , XK_F3                                       , togglescratch , {.ui = 2}}      ,
     {MODKEY                              , XK_q                                        , killclient    , {0}}                    ,
     {MODKEY | ShiftMask                  , XK_Delete                                   , quit          , {0}}                    ,
     TAGKEYS(XK_1, 0)
