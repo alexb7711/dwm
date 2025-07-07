@@ -40,7 +40,7 @@ typedef struct {
 } Sp;
 
 static const char *scratchpadcmd[] = {"st", "-n", "spterm", "-g", "120x34", NULL};
-static const char *ncspotify[]     = {"st", "-n",  "spspotify", "-e", "flatpak", "run", "io.github.hrkfdn.ncspot", NULL};
+static const char *ncspotify[]     = {"st", "-n",  "spspotify", "-g", "144x41", "-e", "flatpak", "run", "io.github.hrkfdn.ncspot", NULL};
 static const char *pulsemixer[]    = {"st", "-n", "sppulsemixer", "-g", "144x41", "-e", "pulsemixer", NULL};
 
 static Sp scratchpads[] = {
@@ -71,9 +71,9 @@ static const Rule rules[] = {
     {"obs"               , NULL           , NULL                                 , 1 << 8    , 0          , 1          , 0         , 2       }              ,
     {"tabbed"            , NULL           , "st"                                 , 0         , 0          , 1          , 0         , -1      }              ,
     // Scratch pads      ,                ,                                      ,           ,            ,            ,           ,                        ,
-    {NULL                , "spterm"       , NULL                                 , SPTAG(0)  , 1          , 1          , 0         , 1       }              ,
-    {NULL                , "spspotify"    , NULL                                 , SPTAG(1)  , 1          , 1          , 1         , 1       }              ,
-    {NULL                , "sppulsemixer" , NULL                                 , SPTAG(2)  , 1          , 1          , 1         , 1       }              ,
+    {NULL                , "spterm"       , NULL                                 , SPTAG(0)  , 1          , 1          , 0         , -1      }              ,
+    {NULL                , "spspotify"    , NULL                                 , SPTAG(1)  , 1          , 1          , 1         , -1      }              ,
+    {NULL                , "sppulsemixer" , NULL                                 , SPTAG(2)  , 1          , 1          , 1         , -1      }              ,
     // CAD and Slicers   ,                ,                                      ,           ,            ,            ,           ,                        ,
     {"PrusaSlicer"       , NULL           , NULL                                 , 1 << 2    , 0          , 1          , 0         , -1      }              ,
     {"FreeCAD"           , NULL           , NULL                                 , 1 << 2    , 0          , 1          , 0         , -1      }              ,
